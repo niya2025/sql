@@ -1,0 +1,183 @@
+1) commit
+
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+mysql> insert into student values(21,'punnya','punnya house','f');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> select*from student;
++---------+--------+--------------+--------+
+| roll_no | name   | address      | gender |
++---------+--------+--------------+--------+
+|      21 | punnya | punnya house | f      |
++---------+--------+--------------+--------+
+1 row in set (0.00 sec)
+
+
+2) rollback
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from student;
++---------+--------+--------------+--------+
+| roll_no | name   | address      | gender |
++---------+--------+--------------+--------+
+|      21 | punnya | punnya house | f      |
++---------+--------+--------------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into student values(22,'aswani','aswani house','f');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from student;
++---------+--------+--------------+--------+
+| roll_no | name   | address      | gender |
++---------+--------+--------------+--------+
+|      21 | punnya | punnya house | f      |
+|      22 | aswani | aswani house | f      |
++---------+--------+--------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select*from student;
++---------+--------+--------------+--------+
+| roll_no | name   | address      | gender |
++---------+--------+--------------+--------+
+|      21 | punnya | punnya house | f      |
++---------+--------+--------------+--------+
+1 row in set (0.00 sec)
+
+3) Savepoint
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values(23,'amitha','amitha house','f'),(24,'karunna','karuna house','f');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> savepoint sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update student set name='mittu' where roll_no=21;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint sp2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values(25,'niya','niya house','f');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> savepoint sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from student where roll_no=23;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> rollback to sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> rollback to sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select*from student;
++---------+---------+--------------+--------+
+| roll_no | name    | address      | gender |
++---------+---------+--------------+--------+
+|      21 | punnya  | punnya house | f      |
+|      23 | amitha  | amitha house | f      |
+|      24 | karunna | karuna house | f      |
++---------+---------+--------------+--------+
+3 rows in set (0.00 sec)
+
+
+
+4)
+
+mysql> create user 'niya1'@'localhost'identified by 'pass789';
+Query OK, 0 rows affected (0.10 sec)
+mysql> create user 'user2'@'localhost'identified by 'user123';
+Query OK, 0 rows affected (0.15 sec)
+mysql> grant insert,select on ksb.student 
+    -> to 'niya1'@'localhost';
+Query OK, 0 rows affected (0.12 sec)
+mysql> grant update,delete
+    -> on ksb.* to 'user2'@'localhost';
+Query OK, 0 rows affected (0.10 sec)
+mysql> flush privileges;
+Query OK, 0 rows affected (0.06 sec)
+mysql> show grants for 'niya1'@'localhost';
++----------------------------------------------------------------+
+| Grants for niya1@localhost                                     |
++----------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `niya1`@`localhost`                      |
+| GRANT SELECT, INSERT ON `ksb`.`student` TO `niya1`@`localhost` |
++----------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> show grants for 'user2'@'localhost';
++--------------------------------------------------------+
+| Grants for user2@localhost                             |
++--------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user2`@`localhost`              |
+| GRANT UPDATE, DELETE ON `ksb`.* TO `user2`@`localhost` |
++--------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+ 2. REVOKE:   Remove delete privilege of user 2.
+
+mysql> REVOKE DELETE ON ksb.* FROM 'user2'@'localhost';
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> show grants for 'user2'@'localhost';
++------------------------------------------------+
+| Grants for user2@localhost                     |
++------------------------------------------------+
+| GRANT USAGE ON *.* TO `user2`@`localhost`      |
+| GRANT UPDATE ON `ksb`.* TO `user2`@`localhost` |
++------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
