@@ -405,7 +405,7 @@ mysql> select*from invoice_item;
 
  3. Delete the purchase details of product ‘pen’ in the in_id ‘101’. 
  
- mysql> delete from invoice_item where inv_id=103 and pid=(select pid from product where pname='speaker');
+ mysql> delete from invoice_item where inv_id=101;
 Query OK, 1 row affected (0.08 sec)
 
 mysql> select*from invoice_item;
