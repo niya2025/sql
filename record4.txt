@@ -1,0 +1,107 @@
+1. List all invoice items, avoid duplicates.    
+
+mysql> select* from invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    104 |  104 |       34 |
+|    104 |  102 |        5 |
+|    205 |  103 |       12 |
+|    206 |  104 |        8 |
+|    207 |  105 |       72 |
++--------+------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct pid from invoice_item;
++------+
+| pid  |
++------+
+|  102 |
+|  103 |
+|  104 |
+|  105 |
++------+
+4 rows in set (0.00 sec)
+
+
+
+2. List the customer details who not live in ‘tvm’. 
+
+
+mysql> select* from customer;
++---------+--------+---------------+---------+-------------+
+| cust_id | name   | address       | city    | ph_no       |
++---------+--------+---------------+---------+-------------+
+|     104 | niya   | nishlam house | kottaym | 97865463425 |
+|     105 | karuna | karu house    | cal     | 123456789   |
+|     106 | aswani | aswani house  | tvm     | 123456782   |
+|     107 | punnya | punnya house  | tvm     | 123676782   |
++---------+--------+---------------+---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select* from customer where city not in ('tvm');
++---------+--------+---------------+---------+-------------+
+| cust_id | name   | address       | city    | ph_no       |
++---------+--------+---------------+---------+-------------+
+|     104 | niya   | nishlam house | kottaym | 97865463425 |
+|     105 | karuna | karu house    | cal     | 123456789   |
++---------+--------+---------------+---------+-------------+
+2 rows in set (0.00 sec)
+
+
+
+
+3. Display the customer details sorted in ascending by city and descending by names. 
+
+mysql> select* from customer;
++---------+--------+---------------+---------+-------------+
+| cust_id | name   | address       | city    | ph_no       |
++---------+--------+---------------+---------+-------------+
+|     104 | niya   | nishlam house | kottaym | 97865463425 |
+|     105 | karuna | karu house    | cal     | 123456789   |
+|     106 | aswani | aswani house  | tvm     | 123456782   |
+|     107 | punnya | punnya house  | tvm     | 123676782   |
++---------+--------+---------------+---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select* from customer order by city asc,name desc;
++---------+--------+---------------+---------+-------------+
+| cust_id | name   | address       | city    | ph_no       |
++---------+--------+---------------+---------+-------------+
+|     105 | karuna | karu house    | cal     | 123456789   |
+|     104 | niya   | nishlam house | kottaym | 97865463425 |
+|     107 | punnya | punnya house  | tvm     | 123676782   |
+|     106 | aswani | aswani house  | tvm     | 123456782   |
++---------+--------+---------------+---------+-------------+
+4 rows in set (0.00 sec)
+
+
+
+
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length
+
+
+mysql> select*from customer where name like '%e%' or name like '%a%' and name like'__%';
++---------+--------+---------------+---------+-------------+
+| cust_id | name   | address       | city    | ph_no       |
++---------+--------+---------------+---------+-------------+
+|     104 | niya   | nishlam house | kottaym | 97865463425 |
+|     105 | karuna | karu house    | cal     | 123456789   |
+|     106 | aswani | aswani house  | tvm     | 123456782   |
+|     107 | punnya | punnya house  | tvm     | 123676782   |
++---------+--------+---------------+---------+-------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
