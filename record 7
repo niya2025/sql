@@ -1,0 +1,43 @@
+1. List the product name and quantity of invoice items. 
+mysql> SELECT      product.pname,     invoice_item.quantity FROM product JOIN invoice_item ON product.pid = invoice_item.pid;
++----------+----------+
+| pname    | quantity |
++----------+----------+
+| ipad     |       34 |
+| laptop   |        5 |
+| speaker  |       12 |
+| ipad     |        8 |
+| keyboard |       72 |
++----------+----------+
+5 rows in set (0.00 sec)
+
+2.. Display the customer name, product name, invoice date of purchased item ‘pen’. 
+
+mysql> SELECT c.name, p.pname, im.inv_date
+    -> FROM customer c
+    -> JOIN invoice_master im ON c.cust_id = im.cust_id
+    -> JOIN invoice_item ii ON im.inv_id = ii.inv_id
+    -> JOIN product p ON ii.pid = p.pid
+    -> WHERE p.pname = 'pen';
++--------+-------+------------+
+| name   | pname | inv_date   |
++--------+-------+------------+
+| karuna | pen   | 2026-04-12 |
++--------+-------+------------+
+1 row in set (0.00 sec)
+
+3. Display all customer details and invoice details must include customer has not
+purchased items.
+mysql> SELECT customer.cust_id, customer.name, invoice_master.inv_id  FROM customer LEFT outer JOIN invoice_master ON customer.cust_id = invoice_master.cust_id;
++---------+--------+--------+
+| cust_id | name   | inv_id |
++---------+--------+--------+
+|     104 | niya   |    104 |
+|     105 | karuna |    205 |
+|     106 | aswani |    206 |
+|     107 | punnya |    207 |
+|     201 | sinu   |   NULL |
++---------+--------+--------+
+5 rows in set (0.00 sec)
+
+
