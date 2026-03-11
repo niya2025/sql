@@ -1,0 +1,19 @@
+1. Display customer details who doesn’t have phone number and lives in ‘Calicut’ city (use logical operators) 
+
+mysql> SELECT * FROM customer WHERE ph_no IS NULL AND city = 'cal';
++---------+------+-----------+------+-------+
+| cust_id | name | address   | city | ph_no |
++---------+------+-----------+------+-------+
+|     202 | anu  | anu house | cal  | NULL  |
++---------+------+-----------+------+-------+
+1 row in set (0.00 sec)
+
+2. List the product names if it finds any records in the invoice items table has quantity =3 (use special operators)
+
+mysql> SELECT pname FROM product WHERE pid IN ( SELECT pid  FROM invoice_item  WHERE quantity = 3 );
++-------+
+| pname |
++-------+
+| pen   |
++-------+
+1 row in set (0.00 sec)
