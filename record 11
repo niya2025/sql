@@ -1,0 +1,21 @@
+1.Create a function to calculate price_range(low, medium, high) of each product. If price<=5
+indicate as low, upto 50 indicate as medium, and above as high.
+
+
+mysql> create function pra_range(price decimal(10,2)) returns varchar(10) deterministic begin declare result varchar (10); if price <=1020 then set result ='low'; elseif price <=23000 then  set result ='medium'; else set result = 'high'; end if; return result; end$$
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> select pname,price,pra_range(price) as price_category from product ;$$
++----------+--------+----------------+
+| pname    | price  | price_category |
++----------+--------+----------------+
+| laptop   | 204000 | high           |
+| speaker  |  10220 | medium         |
+| ipad     |  20400 | medium         |
+| keyboard |   1020 | low            |
+| pen      |   3000 | medium         |
+| machine  |  23000 | medium         |
++----------+--------+----------------+
+6 rows in set (0.00 sec)
+
+
