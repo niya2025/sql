@@ -1,0 +1,33 @@
+1. Create a procedure to find greatest of 3 numbers. 
+
+mysql> create procedure greatee() begin declare a,b,c int; set a=10; set b=12; set c=2; if a>b and a>c then  select a as greatest; elseif b>a and b>c then  sele
+ct b as greatest; else select  c as greatest; end if; end//
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> call greatee()
+    -> //
++----------+
+| greatest |
++----------+
+|       12 |
++----------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+2. Create a procedure to display invoice details of a particular customer.
+mysql> create procedure cus(in c_id int) begin select customer.cust_id,customer.name , invoice_master.inv_id,invoice_master.inv_date,invoice_item.pid,invoice_item.quantity from customer join invoice_master on customer.cust_id = invoice_master.cust_id join invoice_item on invoice_master . inv_id = invoice_item.inv_id where customer.cust_id=c_id; end$$
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> call cus(104) $$
++---------+------+--------+------------+------+----------+
+| cust_id | name | inv_id | inv_date   | pid  | quantity |
++---------+------+--------+------------+------+----------+
+|     104 | niya |    104 | 2026-02-11 |  104 |       34 |
+|     104 | niya |    104 | 2026-02-11 |  102 |        5 |
++---------+------+--------+------------+------+----------+
+2 rows in set (0.03 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
