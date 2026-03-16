@@ -1,0 +1,153 @@
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER,
+PRODUCT) and its corresponding documents. 
+
+invoice> use INVOICE
+switched to db INVOICE
+INVOICE> db.createCollection("customer")
+{ ok: 1 }
+INVOICE> db.createCollection("PRODUCT");
+{ ok: 1 }
+
+INVOICE> show collections
+CUSTOMER
+PRODUCT
+
+ INVOICE> db.product.insertMany([{"pname":"pen","quantity":23,"price":20},{"pname":"pencil","quantity":20,"price":25},{"pname":"book","quantity":10,"price":45},{"pname":"papper","quantity":89,"price":12},{"pname":"eraser","quantity":"34","price":5}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b7ac1aa9f91b8d598563b1'),
+    '1': ObjectId('69b7ac1aa9f91b8d598563b2'),
+    '2': ObjectId('69b7ac1aa9f91b8d598563b3'),
+    '3': ObjectId('69b7ac1aa9f91b8d598563b4'),
+    '4': ObjectId('69b7ac1aa9f91b8d598563b5')
+  }
+}
+
+
+INVOICE> db.product.find()
+[
+  {
+    _id: ObjectId('69b7ac1aa9f91b8d598563b1'),
+    pname: 'pen',
+    quantity: 23,
+    price: 55
+  },
+  {
+    _id: ObjectId('69b7ac1aa9f91b8d598563b2'),
+    pname: 'pencil',
+    quantity: 20,
+    price: 25
+  },
+  {
+    _id: ObjectId('69b7ac1aa9f91b8d598563b3'),
+    pname: 'book',
+    price: 45,
+    quantity: 10
+  },
+  {
+    _id: ObjectId('69b7ac1aa9f91b8d598563b4'),
+    pname: 'papper',
+    quantity: 89,
+    price: 58
+  },
+  {
+    _id: ObjectId('69b7ac1aa9f91b8d598563b5'),
+    pname: 'eraser',
+    quantity: '34',
+    price: 5
+  }
+]
+
+
+INVOICE> db.customer.insertMany([{"cname":"niya","address":"tvm"},{"cname":"karuna","address":"cal"},{"cname":"aswani","address":"kochi"},{"cname":"mubashir","address":"ktm"},{"cname":"umar","address":"tvm"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b7af71a9f91b8d598563b6'),
+    '1': ObjectId('69b7af71a9f91b8d598563b7'),
+    '2': ObjectId('69b7af71a9f91b8d598563b8'),
+    '3': ObjectId('69b7af71a9f91b8d598563b9'),
+    '4': ObjectId('69b7af71a9f91b8d598563ba')
+  }
+}
+
+2. Write a MongoDB query to find all documents from the collection CUSTOMER 
+
+INVOICE> db.customer.find()
+[
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b6'),
+    cname: 'niya',
+    address: 'tvm'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b7'),
+    cname: 'karuna',
+    address: 'cal'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b8'),
+    cname: 'aswani',
+    address: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b9'),
+    cname: 'mubashir',
+    address: 'ktm'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563ba'),
+    cname: 'umar',
+    address: 'tvm'
+  }
+]
+
+ 3. Write a MongoDB query to update the city in the collection CUSTOMER. 
+ INVOICE> db.customer.updateOne({"address":"ktm"},{$set:{"address":"ekm"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+INVOICE> db.customer.find({"address":"ekm"})
+[
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b9'),
+    cname: 'mubashir',
+    address: 'ekm'
+  }
+]
+
+ 
+ 4. Write a MongoDB query to delete the first matched document whose city is “Calicut”.
+ 
+ INVOICE> db.customer.deleteOne({"address":"cal"})
+{ acknowledged: true, deletedCount: 1 }
+INVOICE> db.customer.find()
+[
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b6'),
+    cname: 'niya',
+    address: 'tvm'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b8'),
+    cname: 'aswani',
+    address: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b9'),
+    cname: 'mubashir',
+    address: 'ekm'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563ba'),
+    cname: 'umar',
+    address: 'tvm'
+  }
+]
+
+ 
