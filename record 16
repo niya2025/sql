@@ -1,0 +1,107 @@
+1. Write a MongoDB query to sort customer details in ascending order of their name. 
+INVOICE> db.customer.find().sort({cname:1})
+[
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b8'),
+    cname: 'aswani',
+    address: 'kochi'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b9'),
+    cname: 'mubashir',
+    address: 'ekm'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b6'),
+    cname: 'niya',
+    address: 'tvm'
+  },
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563ba'),
+    cname: 'umar',
+    address: 'tvm'
+  }
+]
+
+ 2. Write a MongoDB query to count number of customers in each city. 
+ INVOICE> db.customer.aggregate([{$group:{_id:"$address",total_customers:{$sum:1}}}])
+[
+  { _id: 'ekm', total_customers: 1 },
+  { _id: 'tvm', total_customers: 2 },
+  { _id: 'kochi', total_customers: 1 }
+]
+
+ 3. Write a MongoDB query to find minimum and maximum age in each city. 
+ 
+ INVOICE> db.customer.aggregate([{$group:{_id:"$address",max_age:{$max:"$age"},min_age:{$min:"$age"}
+| }}])
+[
+  { _id: 'tvm', max_age: 30, min_age: 22 },
+  { _id: 'kochi', max_age: 25, min_age: 25 },
+  { _id: 'ekm', max_age: 28, min_age: 28 }
+]
+
+4. Write a MongoDB query using the $match stage to retrieve all customer documents whose
+customer_name starts with the letter “S”. 
+INVOICE> db.customer.aggregate([
+|   {
+|     $match: {
+|       cname: { $regex: "^m" }
+|     }
+|   }
+| ])
+[
+  {
+    _id: ObjectId('69b7af71a9f91b8d598563b9'),
+    cname: 'mubashir',
+    address: 'ekm',
+    age: 28
+  }
+]
+
+5. Write a query using $lookup to join CUSTOMER and PRODUCT collections and display only
+customer name, product name, and price.
+INVOICE> db.customer.aggregate([
+|   {
+|     $lookup: {
+|       from: "product",
+|       localField: "product_id",
+|       foreignField: "product_id",
+|       as: "product_info"
+|     }
+|   },
+|   { $unwind: "$product_info" },
+|   {
+|     $project: {
+|       _id: 0,
+|       customer_name: "$cname",
+|       product_name: "$product_info.pname",
+|       price: "$product_info.price"
+|     }
+|   }
+| ]);
+[
+  { customer_name: 'niya', product_name: 'pen', price: 55 },
+  { customer_name: 'niya', product_name: 'pencil', price: 25 },
+  { customer_name: 'niya', product_name: 'book', price: 45 },
+  { customer_name: 'niya', product_name: 'papper', price: 58 },
+  { customer_name: 'niya', product_name: 'eraser', price: 5 },
+  { customer_name: 'aswani', product_name: 'pen', price: 55 },
+  { customer_name: 'aswani', product_name: 'pencil', price: 25 },
+  { customer_name: 'aswani', product_name: 'book', price: 45 },
+  { customer_name: 'aswani', product_name: 'papper', price: 58 },
+  { customer_name: 'aswani', product_name: 'eraser', price: 5 },
+  { customer_name: 'mubashir', product_name: 'pen', price: 55 },
+  { customer_name: 'mubashir', product_name: 'pencil', price: 25 },
+  { customer_name: 'mubashir', product_name: 'book', price: 45 },
+  { customer_name: 'mubashir', product_name: 'papper', price: 58 },
+  { customer_name: 'mubashir', product_name: 'eraser', price: 5 },
+  { customer_name: 'umar', product_name: 'pen', price: 55 },
+  { customer_name: 'umar', product_name: 'pencil', price: 25 },
+  { customer_name: 'umar', product_name: 'book', price: 45 },
+  { customer_name: 'umar', product_name: 'papper', price: 58 },
+  { customer_name: 'umar', product_name: 'eraser', price: 5 }
+]
+
+
+
