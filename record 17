@@ -1,0 +1,38 @@
+1. Write a MongoDB query to create a user “CUSTOMER1” and grant the read role in the INVOICE database. 
+INVOICE> db.createUser({user: "CSTOMER1",pwd: "1234",roles: [{ role: "read", db: "INVOICE" }]})
+{ ok: 1 }
+
+
+ 2. Write a MongoDB query to create the backup for the INVOICE database. 
+ mongodump --db INVOICE 
+2026-03-24T14:22:43.362+0530	writing INVOICE.product to dump/INVOICE/product.bson
+2026-03-24T14:22:43.362+0530	writing INVOICE.customer to dump/INVOICE/customer.bson
+2026-03-24T14:22:43.408+0530	done dumping INVOICE.product (5 documents)
+2026-03-24T14:22:43.447+0530	done dumping INVOICE.customer (4 documents)
+
+ 
+ 3. Write a MongoDB query to restore a particular database or a collection. 
+  mongodump --db ksb
+2026-03-24T14:28:38.908+0530	writing ksb.emplo to dump/ksb/emplo.bson
+2026-03-24T14:28:38.909+0530	done dumping ksb.emplo (1 document)
+mongosh
+
+test> db.dropDatabase()
+{ ok: 1, dropped: 'test' }
+test> use ksb
+switched to db ksb
+ksb> db.dropDatabase()
+{ ok: 1, dropped: 'ksb' }
+ksb> exit
+(base) ksb@ksb-OptiPlex-3060:~$  mongorestore dump/ksb
+2026-03-24T14:34:27.037+0530	preparing collections to restore from
+2026-03-24T14:34:27.037+0530	don't know what to do with file "dump/ksb/emplo.bson", skipping...
+2026-03-24T14:34:27.037+0530	don't know what to do with file "dump/ksb/emplo.metadata.json", skipping...
+2026-03-24T14:34:27.037+0530	don't know what to do with file "dump/ksb/prelude.json", skipping...
+2026-03-24T14:34:27.037+0530	0 document(s) restored successfully. 0 document(s) failed to restore.
+
+ 4. Write a MongoDB query to create an index for the collection customer using the field customer_name
+ 
+ INVOICE> db.customer.createIndex({ customer_name: 1 })
+customer_name_1
+
